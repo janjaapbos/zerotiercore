@@ -26,7 +26,7 @@ Since I only know some python (and also am looking at using [Nim](http://www.nim
 ## Scapy with ZeroTier embedded
 Below is a quick demo of the [ztcode/ztpy/ztnode.py](./ztcode/ztpy/ztnode.py) code. After compiling ZeroTier and creating the binding we can do something like this.
 
-`./ztnode.py -h
+```./ztnode.py -h
 ZTNode, embedding the ZeroTier Networking node in python
 
 Usage:
@@ -37,6 +37,6 @@ Usage:
 Options:
   -h --help    show this screen
   -n <number>  number of nodes to start [default: 3]
-`
+```
 
 We will go for the default, and have three ZeroTier nodes created and started in our program. Although these nodes are in the same program, they are in different threads and communicate through the standard ZeroTier protocol over UDP. However, since the nodes are initialized from the main thread, we can work with the node objects (through a python class) and easily verify sent and received traffic.
