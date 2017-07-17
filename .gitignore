@@ -1,3 +1,14 @@
+# ZeroTier keys etc.
+state
+
+# Built files
+ztcore/ztnim/ztnim
+ztcore/pyzt/_zerotiercore.c
+ztcore/pyzt/_zerotiercore.c
+ztcore/pyzt/_zerotiercore.c
+
+ztcore/generate/ZeroTierOne.tmp
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -99,3 +110,7 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# nim
+
+nimcache

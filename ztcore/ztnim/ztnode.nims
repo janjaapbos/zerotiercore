@@ -1,0 +1,4 @@
+--threads:on
+--debugger:native
+--stackTrace:on
+--lineTrace:on
