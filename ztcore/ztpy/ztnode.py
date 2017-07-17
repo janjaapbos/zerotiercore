@@ -1,9 +1,31 @@
 #!/usr/bin/env python
 
-from _zerotiercore import ffi, lib as zt
+"""ZTNode, embedding the ZeroTier Networking node in python
+
+Usage:
+  ztnode.py
+  ztnode.py -n <number>
+  ztnode.py -h show help
+
+Options:
+  -h --help    show this screen
+  -n <number>  number of nodes to start [default: 3]
+
+
+"""
+
+import sys
+
+try:
+    from _zerotiercore import ffi, lib as zt
+except ImportError:
+    print 'Missing _zerotiercore lib error: Please run ./compile.py first'
+    sys.exit()
+
+from docopt import docopt
 import logging
 import binascii
-import os, sys
+import os
 import thread
 import threading
 import time
@@ -368,7 +390,7 @@ def PyNodeStateGetFunction(zt_node_ptr, uptr, tptr, objectType, objectId, data, 
     if not fn:
         return -2
     if not os.path.isfile(fn):
-        print("No file found:", fn)
+        # print("No file found:", fn)
         return -1
     with open(fn, 'rb') as fp:
         try:
@@ -460,23 +482,18 @@ def stop():
 
 
 if __name__ == "__main__":
+    arguments = docopt(__doc__, version="ZTNode 0.1")
+    number_of_nodes = int(arguments['-n'])
+    print 'number_of_nodes', number_of_nodes
     logging.getLogger("scapy").setLevel(1)
     from scapy.all import *
     start_process_thread()
-    n1 = Node()
-    n1.start()
-    n2 = Node()
-    n2.start()
-    n3 = Node()
-    n3.start()
-    n4 = Node()
-    n4.start()
-    n5 = Node()
-    n5.start()
-    n6 = Node()
-    n6.start()
-    n7 = Node()
-    n7.start()
-    n8 = Node()
-    n8.start()
-    interact(mydict=globals(), mybanner="ZT")
+
+    myglobals = globals()
+    count = 0
+    while count < number_of_nodes:
+        count += 1
+        myglobals['n%s' % (number_of_nodes)] = Node()
+        myglobals['n%s' % (number_of_nodes)].start()
+
+    interact(mydict=myglobals, mybanner="ZT")
