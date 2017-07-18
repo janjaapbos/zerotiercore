@@ -2,6 +2,8 @@
 
 Work in progress, also need to extent and test for other platforms than Linux.
 
+You may need to pip install docopt and cffi.
+
 ## Building
 
 First generate the bindings. See [generate](../generate).
