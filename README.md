@@ -361,7 +361,7 @@ n2 sending pong from ztid dd7a663e7f to: 1688e17e8d04
 >>>
 ```
 
-That looks ok. Note that I usually have to first broadcast twice. That is a common thing with broadcasts. The subsequent broadcasts are usually received directly.
+That looks ok. Note that I usually have to repeat the first broadcast. That is a common thing with broadcasts. The subsequent broadcasts are usually received directly.
 
 Now looking at the virtual frames:
 
