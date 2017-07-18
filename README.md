@@ -201,7 +201,7 @@ No, there are no received frames. Perhaps the reason is traced?
 >>>
 ```
 
-Yes, apparantly I am doing something wrong. It is true that briding is not allowed in the network configuration. I mistakenly switched source and dest mac addresses. If I swap them, I do see something with tcpdump at my laptop:
+Yes, apparently I am doing something wrong. It is true that briding is not allowed in the network configuration. I mistakenly switched source and dest mac addresses. If I swap them, I do see something with tcpdump at my laptop:
 
 ```
 20:04:10.745897 IP6 version error: 2 != 6
