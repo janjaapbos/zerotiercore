@@ -18,6 +18,14 @@ as a shared library.
 
 Go to the [ZeroTierOne](../../modules/ZeroTierOne) directory and execute:
 
+To fetch the submodule:
+
+```
+# git submodule init
+# git submodule update
+```
+
+To compile:
 ```
 # make ZT_STATIC=0 ZT_DEBUG=1 core-shared
 ```
