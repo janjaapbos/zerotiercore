@@ -74,10 +74,15 @@ type
   ZT_Event* {.size: sizeof(cint).} = enum
     ZT_EVENT_UP = 0, ZT_EVENT_OFFLINE = 1, ZT_EVENT_ONLINE = 2, ZT_EVENT_DOWN = 3,
     ZT_EVENT_FATAL_ERROR_IDENTITY_COLLISION = 4, ZT_EVENT_TRACE = 5,
-    ZT_EVENT_USER_MESSAGE = 6
+    ZT_EVENT_USER_MESSAGE = 6, ZT_EVENT_REMOTE_TRACE = 7
 
 
 type
+  ZT_RemoteTrace* {.bycopy.} = object
+    origin*: uint64
+    data*: cstring
+    len*: cuint
+
   ZT_UserMessage* {.bycopy.} = object
     origin*: uint64
     typeId*: uint64
@@ -129,35 +134,35 @@ type
 
 
 type
-  INNER_C_STRUCT_91309827* {.bycopy.} = object
+  INNER_C_STRUCT_863635521* {.bycopy.} = object
     ip*: array[16, uint8]
     mask*: uint8
 
-  INNER_C_STRUCT_124355848* {.bycopy.} = object
+  INNER_C_STRUCT_896681542* {.bycopy.} = object
     ip*: uint32
     mask*: uint8
 
-  INNER_C_STRUCT_1635961215* {.bycopy.} = object
+  INNER_C_STRUCT_2408286909* {.bycopy.} = object
     mask*: uint8
     value*: array[2, uint8]
 
-  INNER_C_STRUCT_1677268740* {.bycopy.} = object
+  INNER_C_STRUCT_2449594434* {.bycopy.} = object
     `type`*: uint8
     code*: uint8
     flags*: uint8
 
-  INNER_C_STRUCT_2416548415* {.bycopy.} = object
+  INNER_C_STRUCT_3188874109* {.bycopy.} = object
     id*: uint32
     value*: uint32
 
-  INNER_C_STRUCT_2449594435* {.bycopy.} = object
+  INNER_C_STRUCT_3221920129* {.bycopy.} = object
     address*: uint64
     flags*: uint32
     length*: uint16
 
-  INNER_C_UNION_83048321* {.bycopy.} = object {.union.}
-    ipv6*: INNER_C_STRUCT_91309827
-    ipv4*: INNER_C_STRUCT_124355848
+  INNER_C_UNION_855374015* {.bycopy.} = object {.union.}
+    ipv6*: INNER_C_STRUCT_863635521
+    ipv4*: INNER_C_STRUCT_896681542
     characteristics*: uint64
     port*: array[2, uint16]
     zt*: uint64
@@ -168,15 +173,15 @@ type
     vlanDei*: uint8
     etherType*: uint16
     ipProtocol*: uint8
-    ipTos*: INNER_C_STRUCT_1635961215
+    ipTos*: INNER_C_STRUCT_2408286909
     frameSize*: array[2, uint16]
-    icmp*: INNER_C_STRUCT_1677268740
-    tag*: INNER_C_STRUCT_2416548415
-    fwd*: INNER_C_STRUCT_2449594435
+    icmp*: INNER_C_STRUCT_2449594434
+    tag*: INNER_C_STRUCT_3188874109
+    fwd*: INNER_C_STRUCT_3221920129
 
   ZT_VirtualNetworkRule* {.bycopy.} = object
     t*: uint8
-    v*: INNER_C_UNION_83048321
+    v*: INNER_C_UNION_855374015
 
   ZT_VirtualNetworkRoute* {.bycopy.} = object
     target*: sockaddr_storage

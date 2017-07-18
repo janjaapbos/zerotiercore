@@ -84,8 +84,17 @@ ZT_EVENT_FATAL_ERROR_IDENTITY_COLLISION = 4,
 
 ZT_EVENT_TRACE = 5,
 
-ZT_EVENT_USER_MESSAGE = 6
+ZT_EVENT_USER_MESSAGE = 6,
+
+ZT_EVENT_REMOTE_TRACE = 7
 };
+typedef struct
+{
+uint64_t origin;
+
+char *data;
+unsigned int len;
+} ZT_RemoteTrace;
 
 typedef struct
 {
