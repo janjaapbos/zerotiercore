@@ -96,7 +96,7 @@ Ok, let's print the network id in hex.
 '93afae5963d24817'
 >>>
 ```
-Yes, that is the network I created at ZeroTier Central [my.zerotier.com](my.zerotier.com). Since it is configured as a public network, there is no need to authorize the new devices, and they get the network details such as the network name and setting automatically. However, network rules that are configured still apply. We'll check that out later.
+Yes, that is the network I created at ZeroTier Central [my.zerotier.com](https://my.zerotier.com). Since it is configured as a public network, there is no need to authorize the new devices, and they get the network details such as the network name and setting automatically. However, network rules that are configured still apply. We'll check that out later.
 
 By the way, now that I think of it, I should probably make the network private and authorize the devices explicitly, since I just published the network ID on github. If I do that, then I can also connect my laptop to the network and check what happens when I try to ping an embedded device.
 
