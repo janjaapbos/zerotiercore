@@ -378,7 +378,7 @@ Now looking at the virtual frames:
 >>>
 ```
 
-Great. We now have a way to discover the nodes on a shared network. Once we have the addresses, either mac or ztid, we have a way to directly send data to other nodes.
+Great. We now have a way to discover the nodes on a shared network. Once we have the addresses, either mac or ztid, we have a way to directly send data to these nodes.
 
 To send data directly one-on-one, we can either send network frames to specific mac addresses or add extra types of user messages: ZT_UserMessage as defined in [ZeroTierOne.h](https://github.com/zerotier/ZeroTierOne/blob/master/include/ZeroTierOne.h). 
 
