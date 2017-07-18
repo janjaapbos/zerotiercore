@@ -76,10 +76,13 @@ class Node(object):
     tasks_run_interval_online = 10000
     stopping = False
 
-    def __init__(self, name=None, state_dir=None, loop=None):
+    def __init__(self, name=None, state_dir=None, loop=None, nwids=None):
         global node_counter
         global max_received, max_sent, max_traced, max_vframes
         node_counter += 1
+        if nwids is None:
+            nwids = []
+        self.nwids = []
         if name is None:
             name = "n%s" % (node_counter)
         self.name = name
@@ -189,6 +192,8 @@ class Node(object):
         return res
 
     def join_network(self, nwid):
+        if nwid not in self.nwids:
+            self.nwids.append(nwid)
         nwid = int(nwid, 16)
         res = zt.ZT_Node_join(self.zt_node_ptr, nwid, self.uptr, self.tptr)
         # TODO parse query result into python object and free result
@@ -267,7 +272,8 @@ class Node(object):
         # Public network Earth
         #self.join_network(nwid="8056c2e21c000001")
         self.tasks_run_interval = self.tasks_run_interval_online
-        self.join_network(nwid="93afae5963d24817")
+        for nwid in self.nwids:
+            self.join_network(nwid=nwid)
 
     def run_tasks(self):
         if self.stopping:

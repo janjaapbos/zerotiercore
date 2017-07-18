@@ -1,8 +1,21 @@
+let doc = """ZTnode, embedding the ZeroTier Networking node in Nim
+
+Usage:
+  ztnode --nwid NETWORK_ID
+  ztnode -h show help
+
+Options:
+  --nwid NETWORK_IDS  comma seperated ZeroTier network IDs to join
+  -h --help            show this screen
+
+"""
+
+
 import zerotiercore
 import os, streams, times, strutils, ospaths
 import net, nativesockets
 import locks, sequtils, tables, hashes
-
+import docopt
 
 
 # from https://www.bountysource.com/issues/36786621-an-universal-hexdump-routine-which-avoids-usage-of-pointers
@@ -65,6 +78,7 @@ proc getNow(): uint64 =
 type
   ZerotierNode = ref object of RootObj
     name: string
+    initial_nwid: string
     node_ptr: ptr ZT_Node
     thread_ptr: pointer
     udp_sock4: Socket
@@ -80,6 +94,7 @@ var
   port_base: int = 10000
 
   name {.threadvar.}: string
+  initial_nwid {.threadvar.}: string
   #root_dir {.threadvar.}: string
   state_dir {.threadvar.}: string
   udp_sock4 {.threadvar.}: Socket
@@ -93,14 +108,14 @@ var
   pdeadline {.threadvar.}: ptr uint64
   ztres {.threadvar.}: ZT_ResultCode
   ires {.threadvar.}: int
-  zerotierNode {.threadvar.}: ZeroTierNode
+  zerotierNode {.threadvar.}: ZerotierNode
 
   state_dir_root =  "./state"
   node: ptr ZT_Node
   nodes: ptr ptr ZT_Node = node.addr
   # max 4 nodes
   thr: array[0..4, Thread[tuple[
-    name: string, state_dir: string, udp_sock4: Socket
+    name: string, initial_nwid: string, state_dir: string, udp_sock4: Socket
   ]]]
   n1_node_ptr: ptr ZT_Node
   n1_thread_ptr: pointer
@@ -121,7 +136,7 @@ proc join_network(node_ptr: ptr ZT_Node, nwid: string) =
   ztres = ZT_Node_join(node_ptr, uint64(parseHexInt(nwid)), uptr, tptr)
 
 proc on_online(node_ptr: ptr ZT_Node) = 
-  join_network(node_ptr, "93afae5963d24817")
+  join_network(node_ptr, initial_nwid)
 
 proc create_dirs() =
   if not existsDir(state_dir):
@@ -338,17 +353,18 @@ proc init_node() =
   read_udp_server4()
 
 proc start_node_thread(tvars: tuple[
-        name: string, state_dir: string, udp_sock4: Socket
+        name: string, initial_nwid: string, state_dir: string, udp_sock4: Socket
         ]) {.thread.} =
   ztChannel.send("started_node " & tvars.name)
   name = tvars.name
+  initial_nwid = tvars.initial_nwid
   state_dir = tvars.state_dir
   udp_sock4 = tvars.udp_sock4
   init_node()
 
-proc add_node(name: string) =
+proc add_node(name: string, initial_nwid: string) =
   zerotierNode = ZerotierNode(
-    name: name, state_dir: joinPath(state_dir_root, name))
+    name: name, initial_nwid: initial_nwid, state_dir: joinPath(state_dir_root, name))
   zerotierNode.udp_sock4 = init_udp_server4()
   if isNil(zerotierNode.udp_sock4):
     echo "Cannot create udp4 server"
@@ -359,7 +375,8 @@ proc add_node(name: string) =
   zerotierNodes[zerotierNode.name] = zerotierNode
 
   createThread(thr[0], start_node_thread,
-    (zerotierNode.name, zerotierNode.state_dir, zerotierNode.udp_sock4)
+    (zerotierNode.name, zerotierNode.initial_nwid,
+     zerotierNode.state_dir, zerotierNode.udp_sock4)
   )
 
 proc process_msg(msg: string) =
@@ -374,7 +391,9 @@ proc stop_nodes() =
     ZT_Node_delete(n1_node_ptr)
 
 proc main() =
-  add_node("n1")
+  let args = docopt(doc, version="ZTNode 0.1")
+  initial_nwid = $args["--nwid"]
+  add_node("n1", initial_nwid)
 
 
 when isMainModule:
