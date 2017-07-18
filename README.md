@@ -24,16 +24,16 @@ ZeroTierOne can be built as a library, with just the core node functions as desc
 Since I only know some python (and also am looking at using [Nim](http://www.nim-lang.org) we need to create c bindings for these languages to libzerotiercore. This is shown in the subdirectory [ztcore/generate](./ztcore/generate).
 
 ## Scapy with ZeroTier embedded
-Below is a quick demo of the [ztcore/ztpy/ztnode.py](./ztcore/ztpy/ztnode.py) code. After compiling ZeroTier and creating the binding we can do something like this.
+Below is a quick demo of the [ztcore/ztpy/ztscapy.py](./ztcore/ztpy/ztscapy.py) code. After compiling ZeroTier and creating the binding we can do something like this.
 
 ```
-./ztnode.py -h
-ZTNode, embedding the ZeroTier Networking node in python
+./ztscapy.py -h
+ZTScapy, embedding the ZeroTier Networking node in python
 
 Usage:
-  ztnode.py
-  ztnode.py -n <number>
-  ztnode.py -h show help
+  ztscapy.py
+  ztscapy.py -n <number>
+  ztscapy.py -h show help
 
 Options:
   -h --help    show this screen
@@ -43,7 +43,7 @@ Options:
 We will go for the default, and have three ZeroTier nodes created and started in our program. Although these nodes are in the same program, they are in different threads and communicate through the standard ZeroTier protocol over UDP. However, since the nodes are initialized from the main thread, we can work with the node objects (through a python class) and easily verify sent and received traffic.
 
 ```
-# ./ztnode.py
+# ./ztscapy.py
 Welcome to Scapy (2.3.3)
 ZT
 >>> Node n3 has been initialized
@@ -231,7 +231,7 @@ Ok. That seems good. But, what if I did not know the ethernet mac of n2? I could
 >>> n1.broadcast_eth(nwid='93afae5963d24817', sourceMac='1688e17e8d04', data='ping')
 Traceback (most recent call last):
   File "<console>", line 1, in <module>
-  File "./ztnode.py", line 239, in broadcast_eth
+  File "./ztscapy.py", line 239, in broadcast_eth
     self.nextBackgroundTaskDeadline
 TypeError: an integer is required
 >>>
@@ -333,10 +333,10 @@ At the Node class the following is added:
 
 ```
 
-Now we can enter the following at ztscapy, yes I'll rename my ztnode.py script to ztscapy. ;-)
+Now we can enter the following at ztscapy.
 
 ```
-# ./ztnode.py
+# ./ztscapy.py
 Welcome to Scapy (2.3.3)
 ZT
 >>> Node n1 has been initialized
