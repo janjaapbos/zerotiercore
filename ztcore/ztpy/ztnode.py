@@ -1,22 +1,20 @@
+from __future__ import print_function
 import sys
 
 try:
     from _zerotiercore import ffi, lib as zt
 except ImportError:
-    print 'Missing _zerotiercore lib error: Please run ./compile.py first'
+    print('Missing _zerotiercore lib error: Please run ./compile.py first')
     sys.exit()
 
 import logging
 import binascii
 import os
-import thread
 import threading
 import time
 import socket
 import ctypes
-import pyuv
 import socket
-#from __future__ import print_function
 from socket_util import sockaddr_storage_to_addrtuple, addrtuple_to_sockaddr
 
 
@@ -128,7 +126,7 @@ class Node(object):
         self.udp_server = UdpServer(self, "")
         self.callbacks = self.configure_callbacks()
 
-        thread_id = thread.get_ident()
+        thread_id = threading.get_ident()
         self.tptr = ffi.new("uint64_t *", thread_id)
         add_node_by_tptr(self)
         self.uptr = ffi.new("uint64_t *", 121313)
@@ -163,7 +161,7 @@ class Node(object):
             fn = os.path.join(self.state_dir, "networks",  "%s.conf" % (
                     format(objectId[0], 'x')))
         else:
-            print self.name, "getStateObjectTypePath unhandled:", objectType
+            print(self.name, "getStateObjectTypePath unhandled:", objectType)
         if fn:
             return fn
 
@@ -215,11 +213,11 @@ class Node(object):
                 destMac = sourceMac
                 localMac = self.get_network_mac(nwid)
                 if not localMac:
-                    print self.name, "Cannot find local mac address for: ", format(
-                        nwid, 'x')
+                    print(self.name, "Cannot find local mac address for: ", format(
+                        nwid, 'x'))
                 else:
                     pong = "pong from ztid %s" % (self.ztid)
-                    print self.name, 'sending', pong, 'to:', format(destMac, 'x')
+                    print(self.name, 'sending', pong, 'to:', format(destMac, 'x'))
                     self.send_eth(nwid=nwid, sourceMac=localMac, destMac=destMac, data=pong, etherType=0, vlanId=0)
 
     def send_eth(self, nwid, sourceMac, destMac, data, etherType=0, vlanId=0):
@@ -261,7 +259,7 @@ class Node(object):
     def handle_message(self, user_message):
         print(self.name, "got VERB_USER_MESSAGE from:", format(user_message.origin, 'x'))
         msg = ffi.buffer(user_message.data, user_message.length)
-        print msg
+        print(msg)
         if msg == "ping":
             self.send_message(user_message.origin, "pong")
 
@@ -291,7 +289,7 @@ class UdpServer(object):
         global port_base, next_port
         self.node = node
         self.bind_ip = bind_ip
-        self.thread_id = thread.get_ident()
+        self.thread_id = threading.get_ident()
         self.tptr = ffi.new("uint64_t *", self.thread_id)
         self.udp_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         port_pass = 0
@@ -301,14 +299,14 @@ class UdpServer(object):
                 self.udp_sock.bind((self.bind_ip, port))
                 self.bind_port = next_port
                 break
-            except Exception, e:
-                print 'e', e
+            except Exception as e:
+                print('e', e)
                 if not 'address already in use' in str(e):
                     raise
                 if next_port == 65535:
                     if port_pass == 1:
                         raise e
-                    print "Out of ports, start at %s again" % (port_base)
+                    print("Out of ports, start at %s again" % (port_base))
                     next_port = port_base
                     port_pass = 1
             next_port += 1
@@ -319,10 +317,10 @@ class UdpServer(object):
         while not self.node.stopping:
             try:
                 data, ip_port = self.udp_sock.recvfrom(4096*3)
-                #print 'on_read', ip_port, handle.getsockname()
+                #print('on_read', ip_port, handle.getsockname())
                 if data is None:
                    return
-                #print 'on_read data hex', binascii.hexlify(data)
+                #print('on_read data hex', binascii.hexlify(data))
             except socket.error:
                 if self.node.stopping:
                     break
@@ -443,14 +441,14 @@ def PyNodeWirePacketSendFunction(zt_node_ptr, uptr, tptr, localSocket, addr, dat
         return -1
     #if localAddr.ss_family != 0:
     #    try:
-    #        print 'localAddr tuple', sockaddr_storage_to_addrtuple(ffi, localAddr)
+    #        print('localAddr tuple', sockaddr_storage_to_addrtuple(ffi, localAddr))
     #    except Exception, e:
-    #        print e
+    #        print(e)
     addr_in = ffi.cast("struct sockaddr_in*", addr)
     try:
         addr_tuple = sockaddr_storage_to_addrtuple(ffi, addr)
-    except Exception, e:
-        print e
+    except Exception as e:
+        print(e)
     fdata = ffi.buffer(data, dataLen)
     if addr.ss_family == socket.AF_INET:
         node.udp_server.udp_sock.sendto(fdata[:], addr_tuple)
@@ -458,7 +456,7 @@ def PyNodeWirePacketSendFunction(zt_node_ptr, uptr, tptr, localSocket, addr, dat
         if len(node.sent) > node.max_sent:
             del node.sent[0]
     else:
-        #print "skipped sending to addr.ss_family:", addr.ss_family
+        #print("skipped sending to addr.ss_family:", addr.ss_family)
         pass
     return 0
 

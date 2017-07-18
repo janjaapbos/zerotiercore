@@ -17,6 +17,6 @@ ffi = create_module()
 
 
 if __name__ == '__main__':
-    print 'compiling'
+    print('compiling')
     ffi.compile()
-    print 'done compiling'
+    print('done compiling')
