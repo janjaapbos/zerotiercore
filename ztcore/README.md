@@ -13,7 +13,7 @@ In the [generate](generate) directory the sources for the bindings are generated
 The bindings for python are in [ztpy](ztpy). The Python Node class is implemented in [ztnode.py](ztpy/ztnode.py). There is also [ztscapy.py](ztpy/ztscapy.py) which launches a couply ofembedded  ZeroTier nodes and enables interaction with these objects through the Scapy interpreter.
 
 ## Nim
-The Nim code is in [ztnim](ztnim). The main Node functions are implemented in [ztnode.nim](ztnim/ztnode.nim) which imports the generated [zerotiercore.nim](ztnim/zerotiercore.nim).
+The Nim code is in [ztnim](ztnim). The main Node functions are implemented in [ztnode.nim](ztnim/ztnode.nim) which imports the generated [zerotiercore.nim](generate/zerotiercore.nim).
 
 ### Chatapp & bots
 Next on the list to do is to make an example chat app library for Nim, which can be used on all main platforms: Windows, OSX, Linux, Android and iOS. Also, in order to enable bots configured or written by endusers, I will include [Duktape](http://www.duktape.org) as an embedded Javascript engine.
