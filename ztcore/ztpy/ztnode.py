@@ -1,19 +1,3 @@
-#!/usr/bin/env python
-
-"""ZTNode, embedding the ZeroTier Networking node in python
-
-Usage:
-  ztnode.py
-  ztnode.py -n <number>
-  ztnode.py -h show help
-
-Options:
-  -h --help    show this screen
-  -n <number>  number of nodes to start [default: 3]
-
-
-"""
-
 import sys
 
 try:
@@ -22,7 +6,6 @@ except ImportError:
     print 'Missing _zerotiercore lib error: Please run ./compile.py first'
     sys.exit()
 
-from docopt import docopt
 import logging
 import binascii
 import os
@@ -523,20 +506,3 @@ def stop():
     stopping = True
     for node in nodes_by_uint_node_ptr.values():
         node.stop()
-
-
-if __name__ == "__main__":
-    arguments = docopt(__doc__, version="ZTNode 0.1")
-    number_of_nodes = int(arguments['-n'])
-    logging.getLogger("scapy").setLevel(1)
-    from scapy.all import *
-    start_process_thread()
-
-    myglobals = globals()
-    count = 0
-    while count < number_of_nodes:
-        count += 1
-        myglobals['n%s' % (count)] = Node()
-        myglobals['n%s' % (count)].start()
-
-    interact(mydict=myglobals, mybanner="ZT")
