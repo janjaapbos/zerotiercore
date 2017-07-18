@@ -2,7 +2,7 @@
 
 Work in progress, also need to extent and test for other platforms than Linux.
 
-You may need to pip install docopt and cffi.
+You may need to pip install scapy, docopt and cffi.
 
 ## Building
 
