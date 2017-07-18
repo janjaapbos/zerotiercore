@@ -1,6 +1,9 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 
-import commands
+from future import standard_library
+standard_library.install_aliases()
+
+from subprocess import getstatusoutput
 from cffi import FFI
 
 ffi = FFI()
@@ -157,7 +160,7 @@ typedef struct sockaddr_storage
 nim_lines = nim_prefix.split('\n') + prefix.split('\n')
 py_lines = prefix.split('\n')
 
-r = commands.getstatusoutput('cpp ZeroTierOne.h >ZeroTierOne.tmp')
+r = getstatusoutput('cpp ZeroTierOne.h >ZeroTierOne.tmp')
 if r[0]:
     raise RuntimeError(r)
 
@@ -190,6 +193,6 @@ with open('ZeroTierOne.tmp') as fp:
 open('nim_zerotiercore.h', 'w').write('\n'.join(nim_lines))
 open('py_zerotiercore.h', 'w').write('\n'.join(py_lines) + py_callbacks)
 
-r = commands.getstatusoutput('c2nim --cdecl nim_zerotiercore.h --out:zerotiercore.nim')
+r = getstatusoutput('c2nim --cdecl nim_zerotiercore.h --out:zerotiercore.nim')
 if r[0]:
     raise RuntimeError(r)

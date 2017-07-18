@@ -7,8 +7,8 @@ generating the bindings to Python and Nim. For now it is just Linux.
 
 ## Requirements
 
-A general compiler setup to build ZeroTier. Python2 is used for the
-generate.py script.
+A general compiler setup to build ZeroTier. Python is used for the script, and
+you may need to pip install cffi and future.
 
 ## Building ZeroTier
 
