@@ -1,6 +1,6 @@
 # Bindings for ZeroTierCore
 
-##FFI based
+## FFI based
 
 The bindings are based on FFI. This method can be applied to many targets.
 Besides Python and Nim, we can also include targets such as Lua, Rust and
