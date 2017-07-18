@@ -19,7 +19,7 @@ This repository is first of all meant for myself, documenting as I explore the n
 I am also learning about the underlying protocols of ZeroTier. How to create rules, how they affect and regulate network traffic and how to troubleshoot these rules using tracing. In that respect, I have just made a little python program that combines both ZeroTier and [Scapy](https://github.com/secdev/scapy), a python library to construct and manipulate network packets. We can use this to easily create and observe network traffic and the network rules applied to them.
 
 ## The zerotiercore library
-ZeroTierOne can be built as a library, with just the required function as described in [ZeroTierOne.h](https://github.com/zerotier/ZeroTierOne/blob/master/include/ZeroTierOne.h) to embed in a program.
+ZeroTierOne can be built as a library, with just the core node functions as described in [ZeroTierOne.h](https://github.com/zerotier/ZeroTierOne/blob/master/include/ZeroTierOne.h) to embed in a program.
 
 Since I only know some python (and also am looking at using [Nim](http://www.nim-lang.org) we need to create c bindings for these languages to libzerotiercore. This is shown in the subdirectory [ztcore/generate](./ztcore/generate).
 
