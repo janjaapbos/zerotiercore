@@ -8,10 +8,12 @@ First generate the bindings. See [generate](../generate).
 
 Ensure that libzerotiercore.so is in your path.
 
-The you can compile & run like:
+If you do not have a ZeroTier network ID, create one at [my.zerotier.com](https://my.zerotier.com)
+
+The you can compile & run like (replace network ID with the one you want to join):
 
 ```
-nim c -r ztnode
+nim c -r ztnode --nwid 93afae5963d24817
 ```
 
 ## Nimble package

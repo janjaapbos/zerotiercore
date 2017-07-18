@@ -28,16 +28,16 @@ Below is a quick demo of the [ztcore/ztpy/ztscapy.py](ztcore/ztpy/ztscapy.py) co
 
 ```
 ./ztscapy.py -h
-ZTScapy, embedding the ZeroTier Networking node in python
+ZTScapy, embedding the ZeroTier Networking node in python with Scapy
 
 Usage:
-  ztscapy.py
-  ztscapy.py -n <number>
+  ztscapy.py --nwids NETWORK_IDS [-n <number>]
   ztscapy.py -h show help
 
 Options:
-  -h --help    show this screen
-  -n <number>  number of nodes to start [default: 3]
+  --nwids NETWORK_IDS  comma seperated ZeroTier network IDs to join
+  -n <number>          number of nodes to start [default: 3]
+  -h --help            show this screen
 ```
 
 We will go for the default, and have three ZeroTier nodes created and started in our program. Although these nodes are in the same program, they are in different threads and communicate through the standard ZeroTier protocol over UDP. However, since the nodes are initialized from the main thread, we can work with the node objects (through a python class) and easily verify sent and received traffic.

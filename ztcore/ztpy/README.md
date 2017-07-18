@@ -16,11 +16,13 @@ compiling
 done compiling
 ```
 
-Next you can start the ztscapy demo:
+If you do not have a ZeroTier network ID, create one at [my.zerotier.com](https://my.zerotier.com)
+
+Next you can start the ztscapy demo (replace the network ID with the one you want to join):
 
 ```
 
-# ./ztscapy.py
+# ./ztscapy.py --nwids 93afae5963d24817
 Welcome to Scapy (2.3.3)
 ZT
 >>> Node n2 has been initialized
