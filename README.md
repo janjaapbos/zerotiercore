@@ -21,7 +21,7 @@ I am also learning about the underlying protocols of ZeroTier. How to create rul
 ## The zerotiercore library
 ZeroTierOne can be built as a library, with just the core node functions as described in [ZeroTierOne.h](https://github.com/zerotier/ZeroTierOne/blob/master/include/ZeroTierOne.h) to embed in a program.
 
-Since I only know some python (and also am looking at using [Nim](http://www.nim-lang.org) we need to create c bindings for these languages to libzerotiercore. This is shown in the subdirectory [ztcore/generate](ztcore/generate).
+Since I only know some python and also am looking at using [Nim](http://www.nim-lang.org) we need to create c bindings for these languages to libzerotiercore. This is shown in the subdirectory [ztcore/generate](ztcore/generate).
 
 ## Scapy with ZeroTier embedded
 Below is a quick demo of the [ztcore/ztpy/ztscapy.py](ztcore/ztpy/ztscapy.py) code. After compiling ZeroTier and creating the binding we can do something like this.
