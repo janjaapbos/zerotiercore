@@ -10,7 +10,7 @@ Windows platforms.
 In the [generate](generate) directory the sources for the bindings are generated with the [generate.py](generate/generate.py) script parsing the ZeroTierOne.h.
 
 ## Python
-The bindings for python are in [ztpy](ztpy). The Python Node class is implemented in [ztnode.py](ztpy/ztnode.py). There is also [ztscapy.py](ztpy/ztscapy.py) which launches a couply ofembedded  ZeroTier nodes and enables interaction with these objects through the Scapy interpreter.
+The bindings for python are in [ztpy](ztpy). The Python Node class is implemented in [ztnode.py](ztpy/ztnode.py). There is also [ztscapy.py](ztpy/ztscapy.py) which launches a couple of embedded  ZeroTier nodes and enables interaction with these objects through the Scapy interpreter.
 
 ## Nim
 The Nim code is in [ztnim](ztnim). The main Node functions are implemented in [ztnode.nim](ztnim/ztnode.nim) which imports the generated [zerotiercore.nim](generate/zerotiercore.nim).
