@@ -207,7 +207,7 @@ Yes, apparantly I am doing something wrong. It is true that briding is not allow
 20:04:10.745897 IP6 version error: 2 != 6
 ```
 
-I am probably not creating the right payload. I will check this further later, when I am annotating the script. Nice to see that at least I am able to at least reach something from the cloud to my laptop. First continue with stuff that I think will work. ;-)
+I am probably not creating the correct payload. I will check this further later, when I am annotating the script. Nice to see that at least I am able to at least reach something from the cloud to my laptop. First continue with stuff that I think will work. ;-)
 
 Let's now check the other nodes. That's why we created them, to easily experiment with sending and receiving packets. No tcpdump required, we can just inspect the python objects that hold the latest packets sent and received on the wire and the received virtual frames (the actual content that is encrypted on the wire).
 
