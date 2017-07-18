@@ -177,7 +177,7 @@ class Node(object):
             fn = os.path.join(self.state_dir, "networks",  "%s.conf" % (
                     format(objectId[0], 'x')))
         else:
-            print "getStateObjectTypePath unhandled:", objectType
+            print self.name, "getStateObjectTypePath unhandled:", objectType
         if fn:
             return fn
 
@@ -211,16 +211,59 @@ class Node(object):
         # TODO parse query result into python object and free result
         # zt.ZT_Node_freeQueryResult(self.zt_node_ptr, zt_node_status
 
+    def get_network_mac(self, nwid):
+        if isinstance(nwid, basestring):
+            nwid = int(nwid, 16)
+        i = 0
+        netw = self.list_networks()
+        while i < netw.networkCount:
+            if netw[i].networks.nwid == nwid:
+                return netw[i].networks.mac
+            i += 1
+
+    def virtualNetworkFrameFunction(self, uptr, tptr, nwid, nuptr, sourceMac, destMac, etherType, vlanId, data, dataLen):
+        if etherType == 0 and vlanId == 0:
+            if ffi.buffer(data, dataLen)[:].startswith("ping from ztid"):
+                destMac = sourceMac
+                localMac = self.get_network_mac(nwid)
+                if not localMac:
+                    print self.name, "Cannot find local mac address for: ", format(
+                        nwid, 'x')
+                else:
+                    pong = "pong from ztid %s" % (self.ztid)
+                    print self.name, 'sending', pong, 'to:', format(destMac, 'x')
+                    self.send_eth(nwid=nwid, sourceMac=localMac, destMac=destMac, data=pong, etherType=0, vlanId=0)
+
+    def send_eth(self, nwid, sourceMac, destMac, data, etherType=0, vlanId=0):
+        if isinstance(nwid, basestring):
+            nwid = int(nwid, 16)
+        if isinstance(sourceMac, basestring):
+            sourceMac = int(sourceMac, 16)
+        if isinstance(destMac, basestring):
+            destMac = int(destMac, 16)
+        if isinstance(etherType, basestring):
+            etherType = int(etherType, 16)
+        if isinstance(vlanId, basestring):
+            vlanId = int(vlanId, 16)
+
+        ztres = zt.ZT_Node_processVirtualNetworkFrame(
+            self.zt_node_ptr, self.tptr, get_now(),
+            nwid, sourceMac, destMac,
+            etherType, vlanId, data, len(data),
+            self.nextBackgroundTaskDeadline
+        )
+        return ztres
+
     def broadcast_eth(self, nwid, sourceMac, data, etherType=0, vlanId=0):
         if isinstance(nwid, basestring):
             nwid = int(nwid, 16)
         ztres = zt.ZT_Node_processVirtualNetworkFrame(
             self.zt_node_ptr, self.tptr, get_now(),
             nwid, sourceMac, int("FFFFFFFFFFFF", 16),
-            vlanId, etherType, data, len(data),
+            etherType, vlanId, data, len(data),
             self.nextBackgroundTaskDeadline
         )
-        print ztres
+        return ztres
 
     def send_message(self, dest, msg, typeId=99):
         data = ffi.new("char[]", msg)
@@ -431,13 +474,14 @@ def PyNodeWirePacketSendFunction(zt_node_ptr, uptr, tptr, localSocket, addr, dat
     return 0
 
 @ffi.def_extern()
-def PyNodeVirtualNetworkFrameFunction(zt_node_ptr, uptr, tptr, nwid, nuptr, sourceMac, destMac, etherType, vlanId, data, len):
+def PyNodeVirtualNetworkFrameFunction(zt_node_ptr, uptr, tptr, nwid, nuptr, sourceMac, destMac, etherType, vlanId, data, dataLen):
     node = get_node_by_zt_node_ptr(zt_node_ptr)
-    #print("PyNodeVirtualNetworkFrameFunction", nwid, sourceMac, destMac, etherType, vlanId)
-    print('virtualNetworkFrameFunction', 'nwid:', format(nwid, 'x'), 'sourceMac:', format(sourceMac, 'x'), 'destMac:', format(destMac, 'x'), 'etherType:', format(etherType, 'x'), ' vlanId:', vlanId)
-    node.vframes.append(dict(nwid=format(nwid, 'x'), sourceMac=format(sourceMac, 'x'), destMac=format(destMac, 'x'), etherType=format(etherType, 'x'), vlanId=format(vlanId, 'x'), data=ffi.buffer(data, len)[:], dataLen=len))
+    print(node.name, 'virtualNetworkFrameFunction', 'nwid:', format(nwid, 'x'), 'sourceMac:', format(sourceMac, 'x'), 'destMac:', format(destMac, 'x'), 'etherType:', format(etherType, 'x'), ' vlanId:', vlanId)
+    node.vframes.append(dict(nwid=format(nwid, 'x'), sourceMac=format(sourceMac, 'x'), destMac=format(destMac, 'x'), etherType=format(etherType, 'x'), vlanId=format(vlanId, 'x'), data=ffi.buffer(data, dataLen)[:], dataLen=dataLen))
     if len(node.vframes) > node.max_vframes:
         del node.vframes[0]
+    node.virtualNetworkFrameFunction(uptr, tptr, nwid, nuptr, sourceMac, destMac, etherType, vlanId, data, dataLen)
+
 
 @ffi.def_extern()
 def PyNodePathCheckFunction(zt_node_ptr, uptr, tptr, ztaddr, localSocket, remoteAddr):
@@ -484,7 +528,6 @@ def stop():
 if __name__ == "__main__":
     arguments = docopt(__doc__, version="ZTNode 0.1")
     number_of_nodes = int(arguments['-n'])
-    print 'number_of_nodes', number_of_nodes
     logging.getLogger("scapy").setLevel(1)
     from scapy.all import *
     start_process_thread()
@@ -493,7 +536,7 @@ if __name__ == "__main__":
     count = 0
     while count < number_of_nodes:
         count += 1
-        myglobals['n%s' % (number_of_nodes)] = Node()
-        myglobals['n%s' % (number_of_nodes)].start()
+        myglobals['n%s' % (count)] = Node()
+        myglobals['n%s' % (count)].start()
 
     interact(mydict=myglobals, mybanner="ZT")
