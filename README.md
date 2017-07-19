@@ -7,7 +7,7 @@ Integrating [ZeroTier](https://www.zerotier.com) peer-to-peer networking, securi
 Every app and service has its private network stack that directly connects with its clients and users. Realtime chat, messaging, service bus protocols, are possbible without relying on third component such as RabbitMQ, or cloud based messaging and backhaul. This also means one or more availabiltiy dependencies less.
 
 ## Libzt (embedded zerotier + tcp/ip)
-Check out [libzt](https://github.com/zerotier/libzt) when a TCP/IP stack is needed for the embedded network. The repo supported by ZeroTier offers a wide rage of targets and examples.
+Check out [libzt](https://github.com/zerotier/libzt) when a TCP/IP stack is needed for the embedded network. The repo supported by ZeroTier offers a wide range of targets and examples.
 
 ## Working with just the core
 When you do not need tcp/ip and just want to exchange simple and short messages between connected devices, it is possible to use the zerotiercore libray to exchange network frames and user messages. That is what this repo is about.
