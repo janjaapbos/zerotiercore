@@ -2,16 +2,15 @@
 Language bindings and explorations using embedded ZeroTier network nodes.
 
 ## Why?
-Integrating [ZeroTier](https://www.zerotier.com) peer-to-peer networking, security and network rules into the application enables the application to directly and securely connect to clients (devices, services or other apps).
+Integrating [ZeroTier](https://www.zerotier.com) peer-to-peer networking, security and network rules into the application enables the application to directly and securely connect to clients (devices, services or other apps). Leveraging the rules engine driven by [tags and capabilities](https://www.zerotier.com/manual.shtml#3) the app or service will be able to directly refer to the underlying ZeroTier rules, identity management, and connectivity. We no longer have to manage the specific app / service network requirements at the OS / container level, but can directly do this at the application level.
 
-## Less is more!
-For me, [ZeroTier](https://www.zerotier.com) has changed how I look at (enterprise) networking. Why depend on a vertical (networking) stack of one vendor (AWS, VMware, Azure, Openstack, Docker etc.), or even try to make them work together, if you can make them irrelevant. Just bring the network management right to the Windows or Linux containers or mobile devices. In that respect I am a fan of [LXD](https://www.ubuntu.com/containers/lxd). Amazing what we can do scaling and building up-on a Linux container!
+Every app and service has its private network stack that directly connects with its clients and users. Realtime chat, messaging, service bus protocols, are possbible without relying on third component such as RabbitMQ, or cloud based messaging and backhaul. This also means one or more availabiltiy dependencies less.
 
-So yes, that is where we currently use ZeroTier, right in the containers and seamslessly connect them amd the clients all together, deploying ZeroTier networks where network rules engine is driven by [tags and capabilities](https://www.zerotier.com/manual.shtml#3) of the devices.
+## Libzt (embedded zerotier + tcp/ip)
+Check out [libzt](https://github.com/zerotier/libzt) when a TCP/IP stack is needed for the embedded network. The repo supported by ZeroTier offers a wide rage of targets and examples.
 
-The next logical step is to integrate ZeroTier networking to the apps and services. The app or service will than be able to directly refer to the underlying ZeroTier rules, identity management, and connectivity. We no longer have to manage the specific app / service network requirements at the OS / container level, but can directly do this at the application level.
-
-Every app and service has its private network stack that directly connects with its clients and users. Realtime chat, messaging, service bus protocols, are possbible without reliyng on third component such as RabbitMQ, or cloud based messaging and backhaul. This also means one or more availabiltiy dependencies less.
+## Working with just the core
+If you do not need tcp/ip and just want to exchange simple and short messages between connected devices, it is possible to use the zerotiercore libray to exchange network frames and user messages. That is what this repo is about.
 
 ## Learning more
 This repository is first of all meant for myself, documenting as I explore the new possibilities and try to do some proof of concepts. Occasionally I may ask someone to take a look and help me out! Feel free to jump in.
