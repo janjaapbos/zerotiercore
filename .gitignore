@@ -3,9 +3,9 @@ state
 
 # Built files
 ztcore/ztnim/ztnode
-ztcore/ztpy/_zerotiercore.c
-ztcore/ztpy/_zerotiercore.o
-ztcore/ztpy/_zerotiercore.so
+ztcore/python/_zerotiercore.c
+ztcore/python/_zerotiercore.o
+ztcore/python/_zerotiercore.so
 
 ztcore/generate/ZeroTierOne.tmp
 

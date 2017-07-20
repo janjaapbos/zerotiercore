@@ -10,15 +10,15 @@ Windows platforms.
 In the [generate](generate) directory the sources for the bindings are generated with the [generate.py](generate/generate.py) script parsing the ZeroTierOne.h.
 
 ## Python
-The bindings for python are in [ztpy](ztpy). The Python Node class is implemented in [ztnode.py](ztpy/ztnode.py). There is also [ztscapy.py](ztpy/ztscapy.py) which launches a couple of embedded  ZeroTier nodes and enables interaction with these objects through the Scapy interpreter.
+The bindings for python are in [python](python). The Python Node class is implemented in [ztnode.py](python/ztnode.py). There is also [ztscapy.py](python/ztscapy.py) which launches a couple of embedded  ZeroTier nodes and enables interaction with these objects through the Scapy interpreter.
 
 ## Nim
-The Nim code is in [ztnim](ztnim). The main Node functions are implemented in [ztnode.nim](ztnim/ztnode.nim) which imports the generated [zerotiercore.nim](generate/zerotiercore.nim).
+The Nim code is in [nim](nim). The main Node functions are implemented in [ztnode.nim](nim/ztnode.nim) which imports the generated [zerotiercore.nim](generate/zerotiercore.nim).
 
-### Chatapp & bots
-Next on the list to do is to make an example chat app library for Nim, which can be used on all main platforms: Windows, OSX, Linux, Android and iOS. Also, in order to enable bots configured or written by endusers, I will include [Duktape](http://www.duktape.org) as an embedded Javascript engine.
+### Chatapp
+Next on the list to do is to make an example chat app library for Nim, which can be used on all main platforms: Windows, OSX, Linux. Also, in order to enable scripts configured or written by endusers, I will include [Duktape](http://www.duktape.org) as an embedded Javascript engine.
 
-[NiGui](https://github.com/trustable-code/NiGui), a cross-platform desktop GUI written in Nim will be used as the GUI library. I am also going to explore the possibility to add native widget methods to NiGui for Android and iOS. 
+[NiGui](https://github.com/trustable-code/NiGui), a cross-platform desktop GUI written in Nim will be used as the GUI library for desktops.
 
 The ambition is to have a cross platform app, with embedded ZeroTier and Duktape, that can be built for all platforms while providing native speed and look & feel.
 
