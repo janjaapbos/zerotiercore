@@ -10,7 +10,7 @@ Every app and service has its private network stack that directly connects with 
 Check out [libzt](https://github.com/zerotier/libzt) when a TCP/IP stack is needed for the embedded network. The repo supported by ZeroTier offers a wide range of targets and examples.
 
 ## Working with just the core
-When you do not need tcp/ip and just want to exchange simple and short messages between connected devices, it is possible to use the zerotiercore libray to exchange network frames and user messages. That is what this repo is about.
+When you do not need tcp/ip and just want to exchange simple and short messages between connected devices, it is possible to use the zerotiercore library to exchange network frames and user messages. That is what this repo is about.
 
 ## Learning more
 This repository is first of all meant for myself, documenting as I explore the new possibilities and try to do some proof of concepts. Occasionally I may ask someone to take a look and help me out! Feel free to jump in.
